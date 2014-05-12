@@ -95,15 +95,12 @@ class RoutesJavascriptGenerator
      */
     protected function getRouteInformation(Route $route)
     {
-        if ($route->getName()) {
-            return array(
-                'uri'    => $route->uri(),
-                'name'   => $route->getName(),
-                'before' => $this->getBeforeFilters($route)
-            );
-        }
-
-        return null;
+        return array(
+            'uri'    => $route->uri(),
+            'name'   => $route->getName(),
+            'action'   => $route->getActionName(),
+            'before' => $this->getBeforeFilters($route)
+        );
     }
 
     /**

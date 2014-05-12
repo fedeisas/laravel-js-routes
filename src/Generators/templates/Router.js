@@ -6,12 +6,11 @@
   return {
     routes: null,
     route: function(name, params) {
-      var route = this.searchRoute(name),
-          rootUrl = this.getRootUrl();
+      var route = this.searchRoute(name);
 
       if (route) {
         var compiled = this.buildParams(route, params);
-        return rootUrl + '/' + compiled;
+        return compiled;
       }
 
     },
@@ -23,7 +22,7 @@
       }
     },
     buildParams: function(route, params) {
-      var compiled = route.uri,
+      var compiled = route.base + route.uri,
           queryParams = {};
 
       for(var key in params) {
@@ -39,9 +38,6 @@
       }
 
       return compiled;
-    },
-    getRootUrl: function() {
-      return window.location.protocol + '//' + window.location.host;
     },
     buildQueryString: function(params) {
       var ret = [];

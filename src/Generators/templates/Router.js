@@ -28,8 +28,19 @@
       for(var key in params) {
         if (compiled.indexOf('{' + key + '}') != -1) {
           compiled = compiled.replace('{' + key + '}', params[key]);
+        } else if (compiled.indexOf('{' + key + '?}') != -1) {
+          compiled = compiled.replace('{' + key + '?}', params[key]);
         } else {
           queryParams[key] = params[key];
+        }
+      }
+
+      if (compiled.indexOf('?}') != -1) {
+        while (compiled.indexOf('?}') > -1) {
+          var pos = compiled.indexOf('?}');
+          var start = compiled.lastIndexOf('{', pos)-1;
+          var length = pos - start ;
+          compiled = compiled.substring(start, length);
         }
       }
 

@@ -1,5 +1,5 @@
 {
-    "name": "fedeisas/laravel-js-routes",
+    "name": "delormejonathan/laravel-js-routes",
     "description": "Laravel routes from Javascript",
     "license": "MIT",
     "keywords": ["laravel", "generators", "artisan", "routing"],

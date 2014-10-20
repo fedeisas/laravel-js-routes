@@ -9,6 +9,12 @@ class RoutesJavascriptGenerator
 {
 
     /**
+     * Base app url
+     * @var string
+     */
+    protected $base;
+
+    /**
      * File system instance
      * @var Illuminate\Filesystem\Filesystem
      */
@@ -32,8 +38,9 @@ class RoutesJavascriptGenerator
      */
     protected $parsedRoutes;
 
-    public function __construct(File $file, Router $router)
+    public function __construct(File $file, Router $router, $base)
     {
+        $this->base = $base;
         $this->file = $file;
         $this->router = $router;
         $this->routes = $router->getRoutes();
@@ -107,15 +114,13 @@ class RoutesJavascriptGenerator
      */
     protected function getRouteInformation(Route $route)
     {
-        if ($route->getName()) {
-            return array(
-                'uri'    => $route->uri(),
-                'name'   => $route->getName(),
-                'before' => $this->getBeforeFilters($route)
-            );
-        }
-
-        return null;
+        return array(
+            'base'    => $this->base,
+            'uri'    => $route->uri(),
+            'name'   => $route->getName(),
+            'action'   => $route->getActionName(),
+            'before' => $this->getBeforeFilters($route)
+        );
     }
 
     /**

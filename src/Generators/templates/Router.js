@@ -1,61 +1,54 @@
 (function(name, definition) {
-    if (typeof module != 'undefined') {
-      module.exports = definition();
-    } else if (typeof define == 'function' && typeof define.amd == 'object') {
-      define(definition);
-    } else {
-      this[name] = definition();
-    }
-  }('Router', function() {
+    if (typeof module != 'undefined') module.exports = definition();
+    else if (typeof define == 'function' && typeof define.amd == 'object') define(definition);
+    else this[name] = definition();
+}('Router', function() {
   return {
     routes: null,
     route: function(name, params) {
-      var route = this.searchRoute(name),
-          rootUrl = this.getRootUrl(),
-          result = "",
-          compiled = "";
+      var route = this.searchRoute(name);
 
       if (route) {
-        compiled = this.buildParams(route, params);
-        result = this.cleanupDoubleSlashes(rootUrl + '/' + compiled);
-        result = this.stripTrailingSlash(result);
-        return result;
+        var compiled = this.buildParams(route, params);
+        return compiled;
       }
 
     },
     searchRoute: function(name) {
       for (var i = this.routes.length - 1; i >= 0; i--) {
-        if (this.routes[i].name == name) {
+        if (this.routes[i].name == name || this.routes[i].action == name) {
           return this.routes[i];
         }
       }
     },
     buildParams: function(route, params) {
-      var compiled = route.uri,
+      var compiled = route.base + route.uri,
           queryParams = {};
 
-      for (var key in params) {
-        if (compiled.indexOf('{' + key + '?}') != -1) {
-          if (key in params) {
-            compiled = compiled.replace('{' + key + '?}', params[key]);
-          }
-        } else if (compiled.indexOf('{' + key + '}') != -1) {
+      for(var key in params) {
+        if (compiled.indexOf('{' + key + '}') != -1) {
           compiled = compiled.replace('{' + key + '}', params[key]);
+        } else if (compiled.indexOf('{' + key + '?}') != -1) {
+          compiled = compiled.replace('{' + key + '?}', params[key]);
         } else {
           queryParams[key] = params[key];
         }
       }
 
-      compiled = compiled.replace(/\{([^\/]*)\?}/g, "");
+      if (compiled.indexOf('?}') != -1) {
+        while (compiled.indexOf('?}') > -1) {
+          var pos = compiled.indexOf('?}');
+          var start = compiled.lastIndexOf('{', pos)-1;
+          var length = pos - start ;
+          compiled = compiled.substring(start, length);
+        }
+      }
 
       if (!this.isEmptyObject(queryParams)) {
         return compiled + this.buildQueryString(queryParams);
       }
 
       return compiled;
-    },
-    getRootUrl: function() {
-      return window.location.protocol + '//' + window.location.host;
     },
     buildQueryString: function(params) {
       var ret = [];
@@ -70,15 +63,6 @@
         return false;
       }
       return true;
-    },
-    cleanupDoubleSlashes: function(url) {
-      return url.replace(/([^:]\/)\/+/g, "$1");
-    },
-    stripTrailingSlash: function(url) {
-      if(url.substr(-1) == '/') {
-        return url.substr(0, url.length - 1);
-      }
-      return url;
     }
   };
 }));

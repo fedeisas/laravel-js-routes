@@ -49,11 +49,11 @@ class RoutesJavascriptCommand extends Command
     {
         $path = $this->getPath();
 
-        $options = array(
+        $options = [
             'filter' => $this->option('filter'),
             'object' => $this->option('object'),
             'prefix' => $this->option('prefix'),
-        );
+        ];
 
         if ($this->generator->make($this->option('path'), $this->argument('name'), $options)) {
             return $this->info("Created {$path}");
@@ -79,9 +79,9 @@ class RoutesJavascriptCommand extends Command
      */
     protected function getArguments()
     {
-        return array(
-            array('name', InputArgument::OPTIONAL, 'Filename', 'routes.js'),
-        );
+        return [
+            ['name', InputArgument::OPTIONAL, 'Filename', 'routes.js'],
+        ];
     }
 
     /**
@@ -91,11 +91,11 @@ class RoutesJavascriptCommand extends Command
      */
     protected function getOptions()
     {
-        return array(
-           array('path', 'p', InputOption::VALUE_OPTIONAL, 'Path to assets directory.', base_path()),
-           array('filter', 'f', InputOption::VALUE_OPTIONAL, 'Custom route filter.', null),
-           array('object', 'o', InputOption::VALUE_OPTIONAL, 'Custom JS object.', 'Router'),
-           array('prefix', 'prefix', InputOption::VALUE_OPTIONAL, 'Custom route prefix.', null)
-        );
+        return [
+           ['path', 'p', InputOption::VALUE_OPTIONAL, 'Path to assets directory.', base_path()],
+           ['filter', 'f', InputOption::VALUE_OPTIONAL, 'Custom route filter.', null],
+           ['object', 'o', InputOption::VALUE_OPTIONAL, 'Custom JS object.', 'Router'],
+           ['prefix', 'prefix', InputOption::VALUE_OPTIONAL, 'Custom route prefix.', null]
+        ];
     }
 }

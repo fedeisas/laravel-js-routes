@@ -47,7 +47,7 @@ class RoutesJavascriptGenerator
      * @param array $options
      * @return boolean
      */
-    public function make($path, $name, array $options = array())
+    public function make($path, $name, array $options = [])
     {
         $options += ['filter' => null, 'prefix' => null];
 
@@ -75,7 +75,7 @@ class RoutesJavascriptGenerator
      */
     protected function getParsedRoutes($filter = null, $prefix = null)
     {
-        $parsedRoutes = array();
+        $parsedRoutes = [];
 
         foreach ($this->routes as $route) {
             $routeInfo = $this->getRouteInformation($route);
@@ -108,11 +108,11 @@ class RoutesJavascriptGenerator
     protected function getRouteInformation(Route $route)
     {
         if ($route->getName()) {
-            return array(
+            return [
                 'uri'    => $route->uri(),
                 'name'   => $route->getName(),
                 'before' => $this->getBeforeFilters($route)
-            );
+            ];
         }
 
         return null;
@@ -138,7 +138,7 @@ class RoutesJavascriptGenerator
      */
     protected function getPatternFilters($route)
     {
-        $patterns = array();
+        $patterns = [];
 
         foreach ($route->methods() as $method) {
             $inner = $this->getMethodPatterns($route->uri(), $method);

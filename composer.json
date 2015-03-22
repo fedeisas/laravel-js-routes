@@ -11,13 +11,10 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "illuminate/support": "~4.1",
-        "illuminate/console": "~4.1",
-        "illuminate/filesystem": "~4.1",
-        "illuminate/routing": "~4.1"
+        "illuminate/support": "5.0.*"
     },
     "require-dev": {
-        "illuminate/events": "~4.1",
+        "illuminate/events": "5.0.*",
         "phpunit/phpunit": "3.7.27",
         "mockery/mockery": "0.8.0",
         "squizlabs/php_codesniffer": "1.*",
